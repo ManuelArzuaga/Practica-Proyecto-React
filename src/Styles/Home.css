@@ -1,2 +1,67 @@
+header{
+  background-color: yellow;
+  padding: 20px;
+}
 
+nav ul{
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  justify-content: end;
+}
 
+main{
+  background-color: blueviolet;
+  padding: 20px;
+  min-height: 80vh;
+}
+
+.Banner{
+  
+  display: flex;
+  justify-content: center;
+  
+}
+
+.productList{
+  margin-top: 100px;
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.product{
+  border: 1px solid black;
+  padding: 20px;
+  margin:10px;
+  background-color: red;
+}
+
+.product p {
+  margin-top: 20px;
+}
+
+.product button{
+  padding: 5px;
+  display:inline-block;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s;
+  margin-top: 20px;
+}
+
+.product button:hover{
+  transform: scale(0.9);
+}
+
+footer{
+  background-color: aqua;
+  min-height: 12vh;
+}
+
+footer p {
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+  
+}

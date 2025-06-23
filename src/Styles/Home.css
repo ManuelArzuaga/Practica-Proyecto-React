@@ -10,6 +10,10 @@ nav ul{
   justify-content: end;
 }
 
+nav ul li a{
+  text-decoration: none;
+}
+
 main{
   background-color: blueviolet;
   padding: 20px;

@@ -1,0 +1,39 @@
+#login-section{
+  padding: 20px;
+  min-height:100vh;
+}
+
+#login-section h1{
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+#login-section form{
+  width: 50%;
+  padding: 20px;
+  margin: auto;
+}
+
+#login-section form * {
+  display: block;
+  width: 100%;
+}
+
+#login-section form input,
+#login-section form textarea {
+  padding: 5px;
+  margin-top: 5px;
+  border-radius: 10px;
+  border: none;
+  border: 1px solid gray;
+}
+
+#login-section form button {
+  margin-top: 10px;
+  border: none;
+  padding: 8px 16px;
+  background-color: rgb(69, 96, 15);
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+}

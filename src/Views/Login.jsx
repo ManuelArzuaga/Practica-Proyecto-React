@@ -1,0 +1,23 @@
+import Layout from "../Components/Layout/Layout"
+import "../Styles/Login.css"
+
+function Login(){
+  return(
+    <Layout>
+      <section id="login-section">
+          <h1>Login</h1>
+          <form>
+            <label htmlFor="email">Correo electrónico:</label>
+            <input type="email" name="email" id="email" />
+
+            <label htmlFor="password">Contraseña:</label>
+            <input type="password" name="password" id="password" />
+
+            <button>Ingresar</button>
+          </form>
+        </section>
+    </Layout>
+  )
+}
+
+export default Login

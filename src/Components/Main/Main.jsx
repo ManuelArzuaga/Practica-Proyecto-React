@@ -1,33 +1,26 @@
+import { useState,useEffect } from "react"
 function Main(){
   
-  const Productos = [
-     {
-      nombre: "Bicicleta",
-      precio: 1000,
-      descripcion: "20 cambios, cuadro de aluminio, disponible en todos los rodados"
-    },
-    {
-      nombre: "Computadora",
-      precio: 3000,
-      descripcion: "Windows 11 instalado, paquete Office con licencia, 16 de memoria RAM"
-    },
-    {
-      nombre: "Silla gamer",
-      precio: 2000,
-      descripcion: "Tapizado de eco-cuerina, altura regulable, facil de limpiar"
-    },
-    {
-      nombre: "Celular 1",
-      precio: 3229,
-      descripcion: "Compatibilidad con múltiples dispositivos"
-    },
-    {
-      nombre: "Smartwatch 2",
-      precio: 2615,
-      descripcion: "Liviano, ideal para viajes"
-    }
+  const [productos,setProductos] = useState([])
+  const [error,setError] = useState(null)
 
-  ]
+  async function handleFetch() {
+
+    try{
+      const respuesta = await fetch("https://fakestoreapi.com/products")
+      const data = await respuesta.json()
+      setProductos(data)
+      
+    }
+    catch{
+      setError("No se pudo obtener los datos")
+    }
+  }
+
+    useEffect(()=>{
+      handleFetch()
+    },[])
+  
   return(
     <main>
       <section className="Banner">
@@ -35,12 +28,17 @@ function Main(){
       </section>
       <section className="productList">
         {
-          Productos.map((producto) =>{
+          error && <p>{error}</p>
+        }
+        {
+          
+          productos.map((producto) =>{
             return(
               <div className="product">
-                <h2>{producto.nombre}</h2>
-                <p>{producto.precio}</p>
-                <p>{producto.descripcion}</p>
+                <h2>{producto.title}</h2>
+                <img src={producto.image} alt={producto.title}></img>
+                <p>{producto.price}</p>
+                <p>{producto.description}</p>
                 <button>Comprar</button>
               </div>
             )

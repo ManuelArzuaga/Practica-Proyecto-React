@@ -1,6 +1,8 @@
 import { useState } from "react"
 import Layout from "../Components/Layout/Layout"
 import "../Styles/Dashboard.css"
+import {db} from "../Config/Firebase"
+import { collection,addDoc } from "firebase/firestore"
 
 function Dashboard(){
   
@@ -8,6 +10,19 @@ function Dashboard(){
   const [price,setPrice] = useState(0)
   const [description,setDescription] = useState("")
   const [error,setError] = useState(null)
+
+  const productosRef = collection(db,"Productos")
+
+  //cargar productos en la base de datos
+  async function CreateProduct(productData) {
+    try{
+      const productref = await addDoc(productosRef,productData);
+      return productref
+    }
+    catch(error){
+      console.log("error al cargar los datos")
+    }
+  }
   
   function handleName(event){
     setName(event.target.value)
@@ -30,8 +45,10 @@ function Dashboard(){
     }
 
     const newProduct = { name, price, description } //guarda los datos en un objeto
+
+    CreateProduct(newProduct)
     
-    console.log("Nuevo producto: ", newProduct)
+    //console.log("Nuevo producto: ", newProduct)
 
     //inicializar los datos
     setName("")

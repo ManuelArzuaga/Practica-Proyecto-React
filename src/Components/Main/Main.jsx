@@ -1,10 +1,11 @@
 import { useState,useEffect } from "react"
 import {db} from "../../Config/Firebase"
-import { collection,getDocs } from "firebase/firestore"
+import { collection,deleteDoc,getDocs,doc } from "firebase/firestore"
 function Main(){
   
   const [productos,setProductos] = useState([])
   const [error,setError] = useState(null)
+  const [user,setUser] = useState(true)
 
   async function handleFetch() {
 
@@ -22,7 +23,7 @@ function Main(){
     const productosref = collection(db,"Productos")
 
     const snapshot = await getDocs(productosref)
-    const docs = snapshot.docs.map((doc) => doc.data())
+    const docs = snapshot.docs.map((doc) => ({id:doc.id,...doc.data()}))
     setProductos(docs)
     
   }
@@ -30,6 +31,24 @@ function Main(){
     useEffect(()=>{
       handleFetch()
     },[])
+
+    async function handleDeleteProducto(id){
+
+      try{
+        if(confirm("Borrar el producto?")){
+          await deleteDoc(doc(db,"Productos",id))
+          //actualiza la ui con los productos que quedan
+          setProductos(productos.filter(p=>p.id != id))
+          //otra solucion seria llamar otra vez a handlefetch
+          //handleFetch()
+        }
+        
+      }
+      catch(error){
+        setError("error al borrar el producto")
+      }
+      
+    }
   
   return(
     <main>
@@ -50,6 +69,12 @@ function Main(){
                 {/* <img src={producto.image} alt={producto.title}></img> */}
                 <p>{producto.price}</p>
                 <p>{producto.description}</p>
+                {
+                  user && <div className="user-buttons">
+                    <button>Actualizar</button>
+                    <button onClick={()=>handleDeleteProducto(producto.id)}>Borrar</button>
+                  </div>
+                }
                 <button>Comprar</button>
               </div>
             )

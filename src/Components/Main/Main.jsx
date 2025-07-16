@@ -1,6 +1,7 @@
 import { useState,useEffect } from "react"
 import {db} from "../../Config/Firebase"
 import { collection,deleteDoc,getDocs,doc } from "firebase/firestore"
+import {Link} from "react-router-dom"
 function Main(){
   
   const [productos,setProductos] = useState([])
@@ -71,7 +72,7 @@ function Main(){
                 <p>{producto.description}</p>
                 {
                   user && <div className="user-buttons">
-                    <button>Actualizar</button>
+                    <Link to={`/editar-producto/${producto.id}`}>Editar Producto</Link>
                     <button onClick={()=>handleDeleteProducto(producto.id)}>Borrar</button>
                   </div>
                 }

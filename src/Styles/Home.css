@@ -46,7 +46,8 @@ main{
   margin-top: 20px;
 }
 
-.product button{
+.product button,
+.product a{
   padding: 5px;
   display:inline-block;
   width: 100%;

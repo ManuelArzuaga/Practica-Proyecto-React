@@ -6,6 +6,7 @@ import {getFirestore} from "firebase/firestore"
 
 //agregar la configuracion de firebase
 
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app)

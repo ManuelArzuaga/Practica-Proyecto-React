@@ -1,11 +1,11 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Layout from "../Components/Layout/Layout"
 import "../Styles/Dashboard.css"
 import {db} from "../Config/Firebase"
-import { collection,addDoc } from "firebase/firestore"
-import { useNavigate } from "react-router-dom"
+import { collection,addDoc, getDoc,doc, updateDoc } from "firebase/firestore"
+import { useNavigate, useParams } from "react-router-dom"
 
-function Dashboard(){
+function EditProduct(){
   
   const [name,setName] = useState("")
   const [price,setPrice] = useState(0)
@@ -15,16 +15,32 @@ function Dashboard(){
   const productosRef = collection(db,"Productos")
 
   const navigate = useNavigate()
-  //cargar productos en la base de datos
-  async function CreateProduct(productData) {
+
+  const {id} = useParams()
+
+  //traer porducto de la base de datos
+
+  async function fetchproduct(id){
     try{
-      const productref = await addDoc(productosRef,productData);
-      return productref
+      const docRef = doc(db,"Productos",id)
+      const docSnap = await getDoc(docRef)
+      if(docSnap.exists()){
+        const data = docSnap.data()
+        console.log(data)
+        setName(data.name)
+        setPrice(data.price)
+        setDescription(data.description)
+      }
     }
     catch(error){
-      console.log("error al cargar los datos")
+      setError("error al cargar al producto")
     }
   }
+
+  useEffect(()=>{
+    fetchproduct(id)
+  },[id]) //siempre que cambia el id se hace un fetch nuevo
+
   
   function handleName(event){
     setName(event.target.value)
@@ -46,30 +62,22 @@ function Dashboard(){
       setError("Necesitas completar los campos")
     }
 
-    const newProduct = { name, price, description } //guarda los datos en un objeto
-
-    CreateProduct(newProduct)
-    setTimeout(() => {
-      //inicializar los datos
-      setName("")
-      setPrice(0)
-      setDescription("")
+    try {
+      const docRef = doc(db,"Productos",id)
+      updateDoc(docRef,{name,price,description})
       navigate("/")
-    }, 2000);
-    
-    
-    //console.log("Nuevo producto: ", newProduct)
+    } catch (error) {
+      setError("Error al actualizar")
+    }
 
-    
-    
   }
 
 
   return(
     <Layout>
       <section id="admin-section">
-        <h1>Panel de administración</h1>
-        <p>Aquí puedes administrar todos tus productos. Puedes agregar, modificar o borrar lo que desees.</p>
+        <h1>Editando un producto</h1>
+        <p>Aquí puedes editar el producto con su id {id}</p>
         <form onSubmit={handleSubmit}>
           <label htmlFor="name">Nombre del producto:</label>
           <input type="text" name="name" id="name" onChange={handleName} value={name} />
@@ -80,7 +88,7 @@ function Dashboard(){
           <label htmlFor="description">Descripción del producto:</label>
           <textarea name="description" id="description" onChange={handleDescription} value={description}></textarea>
 
-          <button>Agregar producto</button>
+          <button>Editar producto</button>
           {error && <p style={{ color: "red" }}>{error}</p>}
         </form>
       </section>
@@ -88,4 +96,4 @@ function Dashboard(){
   )
 }
 
-export default Dashboard
+export default EditProduct

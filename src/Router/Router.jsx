@@ -4,6 +4,7 @@ import Dashboard from "../Views/Dashboard"
 import Login from "../Views/Login"
 import Register from "../Views/Register"
 import NotFound from "../Views/NotFound"
+import EditProduct from "../Views/EditProduct"
 
 function Router(){
   return(
@@ -14,6 +15,7 @@ function Router(){
         <Route path="/register" element={<Register/>}></Route>
         <Route path="/admin" element={<Dashboard/>}></Route>
         <Route path="*" element={<NotFound/>}></Route>
+        <Route path="editar-producto/:id" element={<EditProduct/>}></Route>
       </Routes>
     </BrowserRouter>
   )

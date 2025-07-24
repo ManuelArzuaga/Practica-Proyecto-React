@@ -4,6 +4,7 @@ import {signInWithEmailAndPassword} from "firebase/auth"
 import {auth} from "../Config/Firebase"
 import { useNavigate } from "react-router-dom"
 import "../Styles/Login.css"
+import { useAuth } from "../Context/AuthContext"
 
 function Login(){
 
@@ -12,7 +13,8 @@ function Login(){
   const [error, setError] = useState(null)
   const [message,setMessage] = useState(null)
   const navigate = useNavigate()
-
+  const { login } = useAuth()
+ 
   async function handleSubmit(e){
 
     e.preventDefault()
@@ -25,7 +27,7 @@ function Login(){
 
     //guardar o registrar un usuario
     try {
-        await signInWithEmailAndPassword(auth,email,password)
+        await login(email,password)
         setMessage("Usuario logueado con exito")
         setEmail("")
         setPassword("")

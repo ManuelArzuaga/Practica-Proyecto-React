@@ -1,12 +1,13 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import { useAuth } from "../../Context/AuthContext"
 
 function Header(){
 
-  const [user,setUser] = useState(true)
+  const {user ,logout} = useAuth()
 
   function HandleLogout(){
-    setUser(false)
+    logout()
   }
 
   return(

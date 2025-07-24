@@ -2,11 +2,13 @@ import { useState,useEffect } from "react"
 import {db} from "../../Config/Firebase"
 import { collection,deleteDoc,getDocs,doc } from "firebase/firestore"
 import {Link} from "react-router-dom"
+import { useAuth } from "../../Context/AuthContext"
 function Main(){
   
   const [productos,setProductos] = useState([])
   const [error,setError] = useState(null)
-  const [user,setUser] = useState(true)
+  
+  const {user} = useAuth()
 
   async function handleFetch() {
 
